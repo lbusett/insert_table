@@ -1,0 +1,20 @@
+Package: inserttable
+Title: Automatically Add a Table to a RMarkdown Document
+Version: 0.0.0.9000
+Authors@R: c(person("Lorenzo", "Busetto", email = "lbusett@gmail.com", role = c("aut", "cre"),
+ comment = c(ORCID = '0000-0001-9634-6038')))
+Description: Function and RStudio add-in allowing to quickly and automatically 
+ generate the code needed to render a table in a RMarkdown document using different
+ formats (kable, DT and rhandsontable are currently implemented). 
+License: MIT + file LICENSE
+Imports: 
+    tibble, rstudioapi, shiny, miniUI, datapasta, assertthat
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown
+ByteCompile: true
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+VignetteBuilder: knitr

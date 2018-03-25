@@ -1,0 +1,4 @@
+Name: Insert Table
+Description: Insert table into a blog post.
+Binding: insert_table
+Interactive: true

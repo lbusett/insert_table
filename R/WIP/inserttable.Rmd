@@ -1,0 +1,32 @@
+---
+title: "test_inserttable"
+author: "Lorenzo Busetto"
+date: "24 March 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec quam ut tortor 
+interdum pulvinar id vitae magna. Curabitur commodo consequat arcu et lacinia. 
+Proin at diam vitae lectus dignissim auctor nec dictum lectus.
+
+```{r}
+
+
+mytbl <- tibble::tribble(
+  ~col_1, ~col_2, ~col_3,
+      1,     "abhjkds",     NA,
+      3,     "mydata",     NA,
+      5,     "ciao",     NA,
+      7,     "2",     NA
+  )
+
+require(knitr)
+DT::datatable(mytbl)
+
+```
