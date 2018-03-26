@@ -90,7 +90,6 @@ insert_table = function(nrows      = 1,
               # If "Done" is clicked, create an empty data frame, then return
               # the empty data frame along with the selected table format
               out_df <- create_empty_df(input$nrows, input$ncols)
-
               shiny::stopApp(returnValue = list(out_df, input$format))
             })
             shiny::observeEvent(input$cancel, {
@@ -157,6 +156,15 @@ insert_table = function(nrows      = 1,
       suppressWarnings(datapasta::tribble_construct(out_tbl[[1]])))
 
   }
+
+
+
+  # library(shiny)
+  # library(rhandsontable)
+
+
+
+  aa = edit_table()
 
   if (out_tbl[[2]] == "kable") {
 
