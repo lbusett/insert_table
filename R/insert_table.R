@@ -90,7 +90,6 @@ insert_table = function(nrows      = 1,
               # If "Done" is clicked, create an empty data frame, then return
               # the empty data frame along with the selected table format
               out_df <- create_empty_df(input$nrows, input$ncols)
-
               shiny::stopApp(returnValue = list(out_df, input$format))
             })
             shiny::observeEvent(input$cancel, {
