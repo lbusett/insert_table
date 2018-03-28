@@ -17,16 +17,34 @@ Proin at diam vitae lectus dignissim auctor nec dictum lectus.
 
 ```{r}
 
-
 mytbl <- tibble::tribble(
   ~col_1, ~col_2, ~col_3,
-      1,     "abhjkds",     NA,
-      3,     "mydata",     NA,
-      5,     "ciao",     NA,
-      7,     "2",     NA
+      NA,     NA,     NA
+  )
+mytbl <- tibble::tribble(
+  ~col_1, ~col_2, ~col_3,
+      NA,     NA,     NA
   )
 
 require(knitr)
-DT::datatable(mytbl)
+kable(mytbl, digits = 3, row.names = FALSE, caption = NULL)
+
+mytbl <- 
+require(knitr)
+kable(mytbl, digits = 3, row.names = FALSE, caption = NULL)
+
+
+mytbl <- 
+require(knitr)
+kable(mytbl, digits = 3, row.names = FALSE, caption = NULL)
+mytbl <- 
+require(knitr)
+kable(mytbl, digits = 3, row.names = FALSE, caption = NULL)
+mytbl <- 
+require(knitr)
+kable(mytbl, digits = 3, row.names = FALSE, caption = NULL)
+mytbl <- 
+require(knitr)
+kable(mytbl, digits = 3, row.names = FALSE, caption = NULL)
 
 ```
