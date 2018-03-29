@@ -1,82 +1,41 @@
-
-
-editTable <- function(tbl){
-  # DF <<- tbl
-  # browser()
-  #
-  # ui <- miniUI::miniPage(miniUI::miniContentPanel(
-  #   shiny::fillRow(
-  #     wellPanel(
-  #     rHandsontableOutput("hot"),
-  #     actionButton(inputId = "Done", label="Done")
-  #   ))
-  # ),
-  # miniUI::gadgetTitleBar(NULL)
-  # )
-
-#   server <- function(input,output, session, tbl){
-#       values = shiny::reactiveValues()
-#       setHot = function(x) values[["hot"]] = DF
-#       # output$hot <- renderRHandsontable(rhandsontable(DF,
-#       #                                                 readOnly=FALSE))
-#       output$hot <- renderRHandsontable({
-#         data <- reactiveData()
-#         if (isErrorMessage(data))
-#           return(NULL)
 #
-#         if (is.null(input$hot))
-#           DF = data
-#         else
-#           DF = hot_to_r(input$hot)
+# editTable <- function(tbl){
+#   DF <<- tbl
+#   # browser()
+#   #
+#   ui <- miniUI::miniPage(miniUI::miniContentPanel(
+#     miniUI::gadgetTitleBar("Edit the Table if you wish so...."),
+#     shiny::fillRow(
+#       shiny::ann
+#       shiny::wellPanel(
+#         rhandsontable::rHandsontableOutput("hot")
+#       ), height = "500px"
+#     )
 #
-#         setHot(DF)
-#         rhandsontable(DF) %>%
-#           hot_table(highlightCol = TRUE, highlightRow = TRUE)
-#       })
+#   ))
 #
-#       #
-#       #     observeEvent(input$enter, {
-#       #       DF=hot_to_r(input$hot)
-#       #       print(DF)
-#       #     })
+#   server <- function(input,output, session){
+#     values = shiny::reactiveValues()
+#     setHot = function(x) values[["hot"]] = DF
+#     output$hot <- renderRHandsontable(
+#       rhandsontable(DF, readOnly = FALSE, useTypes = FALSE, colHeaders = TRUE,
+#                     allowRowEdit = TRUE))
+#     shiny::observeEvent(input$done, {
+#       nrows <- length(input$hot$data)
+#       ncols <- unique(lengths(input$hot$data))
 #
-#       shiny::observeEvent(input$done, {
-#         DF <- hot_to_r(input$hot)
-#         shiny::stopApp(returnValue = DF)
-#       })
-#       shiny::observeEvent(input$cancel, {
-#         shiny::stopApp()
-#       })
-#     }
-#   # )
-# shiny::runGadget(ui, server,
-#                  stopOnCancel = FALSE,
-#                  viewer = shiny::dialogViewer('Edit the table if you wish so',
-#                                               height = 50)
+#       # https://stackoverflow.com/questions/4227223/r-list-to-data-frame
+#       DF    <- data.frame(matrix(unlist(input$hot$data),
+#                                  nrow = nrows, byrow = TRUE))
+#       shiny::stopApp(returnValue = DF)
+#     })
 #
-#                  )
-#                  library(shiny)
-  library(rhandsontable)
-
-  ui = shinyUI(fluidPage(
-    fluidRow(wellPanel(
-      rHandsontableOutput("hot"),
-      actionButton(inputId="enter",label="enter")
-    ))
-  ))
-
-
-  server=function(input,output){
-
-    DF=data.frame(Code=c(1,2,3),Amount=as.character(c(NA,NA,NA)))
-
-    output$hot=renderRHandsontable(rhandsontable(DF, readOnly = FALSE) %>%
-                                     hot_col("Amount", type = "numeric"))
-
-    observeEvent(input$enter, {
-      DF=hot_to_r(input$hot)
-      print(DF)
-    })
-  }
-  shinyApp(ui = ui, server = server)
-}
+#     shiny::observeEvent(input$cancel, {
+#       shiny::stopApp()
+#     })
+#   }
+#   shiny::runGadget(ui, server,
+#                    viewer = dialogViewer("aaAAAaaaa"),
+#                    stopOnCancel = FALSE)
+#
+# }

@@ -15,36 +15,18 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec quam ut torto
 interdum pulvinar id vitae magna. Curabitur commodo consequat arcu et lacinia. 
 Proin at diam vitae lectus dignissim auctor nec dictum lectus.
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 mytbl <- tibble::tribble(
-  ~col_1, ~col_2, ~col_3,
-      NA,     NA,     NA
-  )
-mytbl <- tibble::tribble(
-  ~col_1, ~col_2, ~col_3,
-      NA,     NA,     NA
+               ~azienda, ~tenimento, ~id_geom,    ~id_appez,
+  "BONIFICHE FERRARESI",  "JOLANDA",        3, "2001-01-01",
+  "BONIFICHE FERRARESI",  "JOLANDA",        7, "2001-01-02"
   )
 
-require(knitr)
-kable(mytbl, digits = 3, row.names = FALSE, caption = NULL)
-
-mytbl <- 
-require(knitr)
-kable(mytbl, digits = 3, row.names = FALSE, caption = NULL)
+require(rhandsontable)
+rhandsontable(mytbl, rowHeaders = NULL,
+               digits = 3, useTypes = FALSE, search = FALSE)
 
 
-mytbl <- 
-require(knitr)
-kable(mytbl, digits = 3, row.names = FALSE, caption = NULL)
-mytbl <- 
-require(knitr)
-kable(mytbl, digits = 3, row.names = FALSE, caption = NULL)
-mytbl <- 
-require(knitr)
-kable(mytbl, digits = 3, row.names = FALSE, caption = NULL)
-mytbl <- 
-require(knitr)
-kable(mytbl, digits = 3, row.names = FALSE, caption = NULL)
 
 ```

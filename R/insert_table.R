@@ -43,7 +43,7 @@
 #' @importFrom datapasta tribble_construct
 #' @importFrom assertthat assert_that
 #'
-insert_table = function(nrows      = 1,
+insert_table = function(nrows      = 3,
                         ncols      = 3,
                         tbl_format = "kable",
                         tbl_name   = NULL
@@ -57,13 +57,8 @@ insert_table = function(nrows      = 1,
     tbl_name <- "mytbl"
   }
 
-  # taken from https://stackoverflow.com/a/39084576/6871135
-  create_empty_df <- function(num_rows, num_cols) {
-    dframe <- data.frame(matrix("", nrow = num_rows, ncol = num_cols),
-                         stringsAsFactors = FALSE)
-    names(dframe) <- paste0("col_", seq_len(num_cols))
-    return(dframe)
-  }
+  # create an empty table to initialize the GUI
+  DF <- data.frame(matrix(data = "", ncol = 3, nrow = 3))
 
   if (!is_console) {
     if (text == "") {
@@ -73,68 +68,84 @@ insert_table = function(nrows      = 1,
       # frame
 
       out_tbl = local({
-        shiny::runGadget(
-          miniUI::miniPage(miniUI::miniContentPanel(
-            shiny::fillRow(
-              shiny::numericInput('ncols', 'Number of Columns', 2, 1, 100, 1),
-              shiny::numericInput('nrows', 'Number of Rows',    2, 1, 100, 1),
-              shiny::selectInput('format', 'Format',
-                                 c('kable', 'DT', 'rhandsontable')),
-              height = '70px'
-            ),
-            miniUI::gadgetTitleBar(NULL)
-          )),
-          server = function(input, output, session) {
-            shiny::observeEvent(input$done, {
+        ui <- miniUI::miniPage(miniUI::miniContentPanel(
+          miniUI::gadgetTitleBar("Select output format and edit the Table if
+                                 you wish so"),
+          shiny::fillRow(
+            shiny::selectInput('format', 'Select Output Format',
+                               c('kable', 'DT', 'rhandsontable')),
+            height = '70px'
+          ),
+          h4("Edit Table or cut and paste from spreadsheet", align = "left"),
+          div(""),
+          div("* The first row will be used as column names.\n", style = "bold"),
+          div("* Right click on a row/column header to add more lines or columns", style = "bold"),
+          shiny::fillRow(
+            shiny::wellPanel(
+              rhandsontable::rHandsontableOutput("hot")
+            ), height = "500px"
+          )
 
-              # If "Done" is clicked, create an empty data frame, then return
-              # the empty data frame along with the selected table format
-              out_df <- create_empty_df(input$nrows, input$ncols)
-              shiny::stopApp(returnValue = list(out_df, input$format))
-            })
-            shiny::observeEvent(input$cancel, {
-              shiny::stopApp()
-            })
-          },
-          stopOnCancel = FALSE,
-          viewer = shiny::dialogViewer('Add empty table to a Rmd document',
-                                       width = 500, height = 50)
-        )
+        ))
+
+        server <- function(input,output, session){
+          values = shiny::reactiveValues()
+          setHot = function(x) values[["hot"]] = DF
+          output$hot <- renderRHandsontable(
+            rhandsontable(DF, readOnly = FALSE, useTypes = FALSE, colHeaders = TRUE,
+                          allowRowEdit = TRUE))
+          shiny::observeEvent(input$done, {
+            nrows <- length(input$hot$data)
+            ncols <- unique(lengths(input$hot$data))
+
+            # https://stackoverflow.com/questions/4227223/r-list-to-data-frame
+            data_tbl <- unlist(input$hot$data)
+            if (is.null(data_tbl)) data_tbl <- rep(NA, nrows * ncols)
+            DF    <- data.frame(matrix(data_tbl,
+                                       nrow = nrows, byrow = TRUE),
+                                stringsAsFactors = FALSE)
+            out_tbl <- list(DF, input$format)
+            shiny::stopApp(returnValue = out_tbl)
+          })
+
+          shiny::observeEvent(input$cancel, {
+            shiny::stopApp()
+          })
+        }
+        shiny::runGadget(ui, server,
+                         viewer = dialogViewer("Insert Table Add-In"),
+                         stopOnCancel = FALSE)
       })
 
-      # output_tibble_str <- paste0(
-      #   tbl_name, " <- ",
-      #   suppressWarnings(datapasta::tribble_construct(out_tbl[[1]])))
     } else {
 
       output_tibble_str <- ""
       tbl_name          <- text
 
       out_tbl = local({
-        shiny::runGadget(
-          miniUI::miniPage(miniUI::miniContentPanel(
-            shiny::fillRow(
-              shiny::selectInput('format', 'Format',
-                                 c('kable', 'DT', 'rhandsontable')),
-              height = '70px'
-            ),
-            miniUI::gadgetTitleBar(NULL)
-          )),
-          server = function(input, output, session) {
-            shiny::observeEvent(input$done, {
-              shiny::stopApp(returnValue = list("", input$format))
-            })
-            shiny::observeEvent(input$cancel, {
-              shiny::stopApp()
-            })
-          },
-          stopOnCancel = FALSE,
-          viewer = shiny::dialogViewer('Add table to a Rmd document from an
-                                     existing data frame', height = 50)
-        )
+        ui <- miniUI::miniPage(miniUI::miniContentPanel(
+          miniUI::gadgetTitleBar("Select output format"),
+          shiny::fillRow(
+            shiny::selectInput('format', 'Format',
+                               c('kable', 'DT', 'rhandsontable')),
+            height = '70px'
+          )
+        ))
+
+        server = function(input, output, session) {
+          shiny::observeEvent(input$done, {
+            shiny::stopApp(returnValue = list("", input$format))
+          })
+          shiny::observeEvent(input$cancel, {
+            shiny::stopApp()
+          })
+        }
+
+        shiny::runGadget(ui, server,
+                         viewer = dialogViewer("Insert Table Add-In"),
+                         stopOnCancel = FALSE)
       })
     }
-
   } else {
     # If called from console, check that all parameters were passed and are
     # correct
@@ -149,17 +160,13 @@ insert_table = function(nrows      = 1,
       msg = strwrap("`format` must be equal to `kable`, `DT` or `rhandsontable`. Please
                    correct. Aborting!", width = 100))
 
-    out_df <- create_empty_df(nrows, ncols)
-    out_tbl <- list(out_df, tbl_format)
-    # output_tibble_str <- paste0(
-    #   tbl_name, " <- ",
-    #   suppressWarnings(datapasta::tribble_construct(out_tbl[[1]])))
+    out_tbl  <- create_empty_df(nrows, ncols)
+    out_tbl  <- list(out_tbl, tbl_format)
 
   }
-# Sys.sleep(1)
- # browser()
-get_table_code(out_tbl,
-               tbl_name,
-               is_console,
-               context)
+
+  get_table_code(out_tbl,
+                 tbl_name,
+                 is_console,
+                 context)
 }
