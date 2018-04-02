@@ -4,7 +4,7 @@
 \alias{insert_table}
 \title{insert_table}
 \usage{
-insert_table(nrows = 1, ncols = 3, tbl_format = "kable",
+insert_table(nrows = 3, ncols = 3, tbl_format = "kable",
   tbl_name = NULL)
 }
 \arguments{

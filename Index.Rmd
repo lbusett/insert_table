@@ -43,14 +43,16 @@ to generate the table (in `tribble` format to allow easier editing, thanks to
 selected output format in the `Rmd` document using some default options: 
 
 
-![](man/Figures/animation_1.gif)
+![](docs/reference/figures/animation_1.gif)
 
-
+<br>
 
 For larger tables, you can also __cut and paste content from a spreadsheet__ : 
 
-![](man/Figures/animation_2.gif)
 
+![](docs/reference/figures/animation_2.gif)
+
+<br>
 
 Rendering of the table can successively be tweaked further by changing the arguments
 of the rendering functions.
@@ -65,7 +67,7 @@ as a table with the selected output format. The code will be added at the first
 empty line below that containing the name of the selected variable.
 
 
-![](man/Figures/animation_3.gif)
+![](docs/reference/figures/animation_3.gif)
 
 
 __IMPORTANT NOTE__: `inserttable` will make no effort to guarantee that the 
@@ -86,7 +88,7 @@ function `insert_table()`.
 The function will return __to the console__ the code needed to create a empty 
 table of the specified dimensions and render it with the selected format:
 
-![](man/Figures/animation_4.gif)
+![](docs/reference/figures/animation_4.gif)
 
 
 

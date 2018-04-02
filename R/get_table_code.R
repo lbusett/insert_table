@@ -5,34 +5,41 @@ get_table_code <- function(out_tbl,
 
   #   ____________________________________________________________________________
   #   Create code to generate tribble                                         ####
-
+  header <- out_tbl[[3]]
 
   if (is.data.frame(out_tbl[[1]])) {
-    # In case the add-in was fired from an empty line, build the code to create
-    # the tribble corresponding to the edited table
+
+    out_tbl_data <- out_tbl[[1]]
 
     #  replace column names with the first row of the table.
     #  If the first row is empty, use col_1, col_2....
-    out_tbl_data <- out_tbl[[1]][-1,]
-    names(out_tbl_data) <- out_tbl[[1]][1,]
-    if (unique(names(out_tbl_data)) == "") {
+    if (header) {
+      if (length(unique(as.character(out_tbl_data[1, ]))) == ncol(out_tbl_data)) {
+        colnames            <- out_tbl_data[1, ]
+        out_tbl_data        <- out_tbl_data[-1, ]
+        names(out_tbl_data) <- colnames
+      } else {
+        if (!unique(out_tbl_data[ ,1]) == "") {
+          stop("Non-unique column names found! Aborting! ")
+        } else {
+          names(out_tbl_data) <- paste0("Col_", seq_len(ncol(out_tbl_data)))
+        }
+      }
+    } else {
       names(out_tbl_data) <- paste0("Col_", seq_len(ncol(out_tbl_data)))
     }
-    # browser()
-    # convert to numeric if possible
+
+    # convert columns to numeric if possible
     for (col in seq_len(ncol(out_tbl_data))) {
 
       if (!any(is.na(suppressWarnings(as.numeric(out_tbl_data[, col]))))) {
-
         out_tbl_data[, col] <- as.numeric(out_tbl_data[, col])
-
       } else {
-
+        # convert columns to "standard" date representation if possible
+        # (i.e., YYYY-mm-dd)
         if (!any(is.na(anytime::anydate(out_tbl_data[, col])))) {
-
           out_tbl_data[, col] <- anytime::anydate(out_tbl_data[, col]) %>%
             as.character()
-
         }
       }
 
@@ -63,12 +70,15 @@ get_table_code <- function(out_tbl,
                "datatable(", tbl_name, ", rownames = FALSE, caption = NULL,
                filter = \"top\", escape = FALSE, style = \"default\")")
     } else {
-      output_table_str <-
-        paste0("require(rhandsontable)\n",
-               "rhandsontable(", tbl_name, ", rowHeaders = NULL,
+      if (out_tbl[[2]] == "rhandsontable") {
+        output_table_str <-
+          paste0("require(rhandsontable)\n",
+                 "rhandsontable(", tbl_name, ", rowHeaders = NULL,
                digits = 3, useTypes = FALSE, search = FALSE)")
+      } else {
+        output_table_str <- ""
+      }
     }
-
   }
 
   # create the final text string to be added to the Rmd or pasted to console

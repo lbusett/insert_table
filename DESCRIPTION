@@ -1,6 +1,6 @@
 Package: inserttable
 Title: Automatically Add a Table to a RMarkdown Document
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: c(person("Lorenzo", "Busetto", email = "lbusett@gmail.com", role = c("aut", "cre"),
  comment = c(ORCID = '0000-0001-9634-6038')))
 Description: Function and RStudio add-in allowing to quickly and automatically 
@@ -18,3 +18,5 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
+URL: https://github.com/lbusett/insert_table
+BugReports: https://github.com/lbusett/insert_table/issues

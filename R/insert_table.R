@@ -1,12 +1,15 @@
 #' @title insert_table
 #' @description Function and RStudio add-in allowing to quickly and automatically
 #'  generate the code needed to render a table in a RMarkdown document using different
-#'  formats (kable, DT and rhandsontable are currently implemented).
+#'  formats (kable, DT and rhandsontable are currently implemented - if "None"
+#'  is selected only the code to generate a new tibble with the provided content
+#'  is provided).
 #' @param nrows `numeric` number of rows of the generated empty table, Default: 1
 #'  (ignored if calling the addin from an empty Rmd line)
 #' @param ncols `numeric` number of columns of the generated empty table, Default: 1
 #'  (ignored if calling the addin from an empty Rmd line)
-#' @param tbl_format `character` [`kable` | `DT` | `rhandsontable`] format required
+#' @param tbl_format `character` [`kable` | `DT` | `rhandsontable` | `None`] format
+#'  required
 #'  for the table to be created (ignored if calling as an addin)
 #' @param tbl_name `character` name required for the table to be created
 #'  (ignored if calling as an addin)
@@ -46,22 +49,33 @@
 insert_table = function(nrows      = 3,
                         ncols      = 3,
                         tbl_format = "kable",
+                        colnames   = NULL,
                         tbl_name   = NULL
 ){
 
   # Get the text selected when the addin was called
   context    <- rstudioapi::getActiveDocumentContext()
+
+
   text       <- context$selection[[1]]$text
   is_console <- context[["id"]] == "#console"
   if (is.null(tbl_name)) {
     tbl_name <- "mytbl"
   }
 
-  # create an empty table to initialize the GUI
-  DF <- data.frame(matrix(data = "", ncol = 3, nrow = 3))
-
   if (!is_console) {
     if (text == "") {
+
+      # check that the addin was called from an Rmd document. Otherwise using it
+      # does not make sense!
+      if (!tools::file_ext(context$path) %in% c("Rmd")) {
+        stop(strwrap("The Insert Table addin/function should be called from an
+                      `Rmd` document or from the console. Aborting!"))
+      }
+
+      # create an empty table to initialize the GUI
+      DT <- data.frame(matrix(data = "", ncol = 3, nrow = 4),
+                       stringsAsFactors = FALSE)
 
       # If function called as addin from an empty line, ask user to define number
       # of rows and columns and format of table he wishes to create and create a empty data
@@ -76,24 +90,32 @@ insert_table = function(nrows      = 3,
                                c('kable', 'DT', 'rhandsontable')),
             height = '70px'
           ),
-          h4("Edit Table or cut and paste from spreadsheet", align = "left"),
-          div(""),
-          div("* The first row will be used as column names.\n", style = "bold"),
-          div("* Right click on a row/column header to add more lines or columns", style = "bold"),
-          shiny::fillRow(
-            shiny::wellPanel(
-              rhandsontable::rHandsontableOutput("hot")
-            ), height = "500px"
-          )
+          shiny::h4("Edit Table or cut and paste from spreadsheet",
+                    align = "left"),
+          shiny::div(""),
+          shiny::div("* The first row will be used as column names.\n",
+                     style = "bold"),
+          shiny::div("* Right click to add more lines or columns",
+                     style = "bold"),
+
+          shiny::wellPanel(
+            shiny::checkboxInput(
+              "headers",
+              "Use first row as column names. (If unchecked, 'Col_1', 'Col_2', etc. are used)",
+              TRUE),
+            rhandsontable::rHandsontableOutput("hot")
+          ), height = "500px"
+
 
         ))
 
         server <- function(input,output, session){
           values = shiny::reactiveValues()
-          setHot = function(x) values[["hot"]] = DF
-          output$hot <- renderRHandsontable(
-            rhandsontable(DF, readOnly = FALSE, useTypes = FALSE, colHeaders = TRUE,
-                          allowRowEdit = TRUE))
+          setHot = function(x) values[["hot"]] = DT
+          output$hot <- rhandsontable::renderRHandsontable(
+            rhandsontable::rhandsontable(DT, readOnly = FALSE, useTypes = FALSE,
+                                         colHeaders = FALSE,
+                                         allowRowEdit = TRUE))
           shiny::observeEvent(input$done, {
             nrows <- length(input$hot$data)
             ncols <- unique(lengths(input$hot$data))
@@ -101,10 +123,10 @@ insert_table = function(nrows      = 3,
             # https://stackoverflow.com/questions/4227223/r-list-to-data-frame
             data_tbl <- unlist(input$hot$data)
             if (is.null(data_tbl)) data_tbl <- rep(NA, nrows * ncols)
-            DF    <- data.frame(matrix(data_tbl,
-                                       nrow = nrows, byrow = TRUE),
-                                stringsAsFactors = FALSE)
-            out_tbl <- list(DF, input$format)
+            DT <- data.frame(matrix(data_tbl,
+                                    nrow = nrows, byrow = TRUE),
+                             stringsAsFactors = FALSE)
+            out_tbl <- list(DT, input$format, input$headers)
             shiny::stopApp(returnValue = out_tbl)
           })
 
@@ -119,22 +141,20 @@ insert_table = function(nrows      = 3,
 
     } else {
 
-      output_tibble_str <- ""
-      tbl_name          <- text
-
+      tbl_name <- text
       out_tbl = local({
         ui <- miniUI::miniPage(miniUI::miniContentPanel(
           miniUI::gadgetTitleBar("Select output format"),
           shiny::fillRow(
             shiny::selectInput('format', 'Format',
-                               c('kable', 'DT', 'rhandsontable')),
+                               c('kable', 'DT', 'rhandsontable', 'None')),
             height = '70px'
           )
         ))
 
         server = function(input, output, session) {
           shiny::observeEvent(input$done, {
-            shiny::stopApp(returnValue = list("", input$format))
+            shiny::stopApp(returnValue = list("", input$format, FALSE))
           })
           shiny::observeEvent(input$cancel, {
             shiny::stopApp()
@@ -154,14 +174,27 @@ insert_table = function(nrows      = 3,
                             msg = strwrap("Please specify the number of rows and
                                           the output format. Aborting!",
                                           width = 100))
-
     assertthat::assert_that(
-      tbl_format %in% c("kable", "DT", "rhandsontable"),
-      msg = strwrap("`format` must be equal to `kable`, `DT` or `rhandsontable`. Please
-                   correct. Aborting!", width = 100))
+      tbl_format %in% c("kable", "DT", "rhandsontable", "None"),
+      msg = strwrap("`tbl_format` must be equal to `kable`, `DT` or `rhandsontable`.
+                    Please correct. Aborting!", width = 100))
 
-    out_tbl  <- create_empty_df(nrows, ncols)
-    out_tbl  <- list(out_tbl, tbl_format)
+    if (!is.null(colnames)) {
+      assertthat::assert_that(
+        is.character(colnames) & all.equal(length(colnames), ncols),
+        msg = strwrap("`colnames` must be a character array of length equal
+                      to ncols (or not provided). Aborting!", width = 100))
+    }
+
+    out_tbl  <- data.frame(matrix("", nrow = nrows, ncol = ncols),
+                           stringsAsFactors = FALSE)
+    if (is.null(colnames)) {
+      names(out_tbl) <- paste0("col_", seq_len(ncols))
+    } else {
+      names(out_tbl) <- colnames
+    }
+
+    out_tbl  <- list(out_tbl, tbl_format, FALSE)
 
   }
 

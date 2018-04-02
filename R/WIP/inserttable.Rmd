@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
 ```
 
 ## R Markdown
@@ -17,16 +18,13 @@ Proin at diam vitae lectus dignissim auctor nec dictum lectus.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-mytbl <- tibble::tribble(
-               ~azienda, ~tenimento, ~id_geom,    ~id_appez,
-  "BONIFICHE FERRARESI",  "JOLANDA",        3, "2001-01-01",
-  "BONIFICHE FERRARESI",  "JOLANDA",        7, "2001-01-02"
-  )
+iris_filtered <- iris %>% 
+  dplyr::select(1:5) %>% 
+  dplyr::filter(Petal.Width == 0.2)
 
-require(rhandsontable)
-rhandsontable(mytbl, rowHeaders = NULL,
-               digits = 3, useTypes = FALSE, search = FALSE)
-
+require(DT)
+datatable(iris_filtered, rownames = FALSE, caption = NULL,
+               filter = "top", escape = FALSE, style = "bootstrap")
 
 
 ```
