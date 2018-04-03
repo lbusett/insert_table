@@ -8,7 +8,7 @@ Description: Function and RStudio add-in allowing to quickly and automatically
  formats (kable, DT and rhandsontable are currently implemented). 
 License: MIT + file LICENSE
 Imports: 
-    tibble, rstudioapi, shiny, miniUI, datapasta, assertthat
+    tibble, rstudioapi, shiny, miniUI, datapasta, assertthat, anytime, rhandsontable
 Suggests: 
     testthat,
     knitr,

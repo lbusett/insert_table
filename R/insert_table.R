@@ -1,16 +1,17 @@
 #' @title insert_table
 #' @description Function and RStudio add-in allowing to quickly and automatically
 #'  generate the code needed to render a table in a RMarkdown document using different
-#'  formats (kable, DT and rhandsontable are currently implemented - if "None"
+#'  formats (kableExtra, DT and rhandsontable are currently implemented - if "None"
 #'  is selected only the code to generate a new tibble with the provided content
 #'  is provided).
 #' @param nrows `numeric` number of rows of the generated empty table, Default: 1
 #'  (ignored if calling the addin from an empty Rmd line)
 #' @param ncols `numeric` number of columns of the generated empty table, Default: 1
 #'  (ignored if calling the addin from an empty Rmd line)
-#' @param tbl_format `character` [`kable` | `DT` | `rhandsontable` | `None`] format
-#'  required
-#'  for the table to be created (ignored if calling as an addin)
+#' @param tbl_format `character` [`kableExtra` | `DT` | `rhandsontable` | `None`] format
+#'  required for the table to be created (ignored if calling as an addin)
+#' @param colnames `character` of lenght ncols containing the desired column names
+#'  (ignored if calling as an addin)
 #' @param tbl_name `character` name required for the table to be created
 #'  (ignored if calling as an addin)
 #' @return returns the code required to create a table in a Rmd file with the
@@ -40,15 +41,16 @@
 #' @rdname insert_table
 #' @export
 #' @author Lorenzo Busetto, phD (2017) <lbusett@gmail.com>
-#' @importFrom rstudioapi getActiveDocumentContext insertText
-#' @importFrom shiny runGadget fillRow numericInput selectInput observeEvent stopApp dialogViewer
+#' @importFrom rstudioapi getActiveDocumentContext
+#' @importFrom tools file_ext
 #' @importFrom miniUI miniPage miniContentPanel gadgetTitleBar
-#' @importFrom datapasta tribble_construct
+#' @importFrom shiny fillRow selectInput h4 div wellPanel checkboxInput reactiveValues observeEvent stopApp runGadget
+#' @importFrom rhandsontable rHandsontableOutput renderRHandsontable rhandsontable
 #' @importFrom assertthat assert_that
 #'
 insert_table = function(nrows      = 3,
                         ncols      = 3,
-                        tbl_format = "kable",
+                        tbl_format = "kableExtra",
                         colnames   = NULL,
                         tbl_name   = NULL
 ){
@@ -87,7 +89,7 @@ insert_table = function(nrows      = 3,
                                  you wish so"),
           shiny::fillRow(
             shiny::selectInput('format', 'Select Output Format',
-                               c('kable', 'DT', 'rhandsontable')),
+                               c('kableExtra', 'DT', 'rhandsontable')),
             height = '70px'
           ),
           shiny::h4("Edit Table or cut and paste from spreadsheet",
@@ -135,7 +137,7 @@ insert_table = function(nrows      = 3,
           })
         }
         shiny::runGadget(ui, server,
-                         viewer = dialogViewer("Insert Table Add-In"),
+                         viewer = shiny::dialogViewer("Insert Table Add-In"),
                          stopOnCancel = FALSE)
       })
 
@@ -147,7 +149,7 @@ insert_table = function(nrows      = 3,
           miniUI::gadgetTitleBar("Select output format"),
           shiny::fillRow(
             shiny::selectInput('format', 'Format',
-                               c('kable', 'DT', 'rhandsontable', 'None')),
+                               c('kableExtra', 'DT', 'rhandsontable', 'None')),
             height = '70px'
           )
         ))
@@ -162,7 +164,7 @@ insert_table = function(nrows      = 3,
         }
 
         shiny::runGadget(ui, server,
-                         viewer = dialogViewer("Insert Table Add-In"),
+                         viewer = shiny::dialogViewer("Insert Table Add-In"),
                          stopOnCancel = FALSE)
       })
     }
@@ -175,8 +177,8 @@ insert_table = function(nrows      = 3,
                                           the output format. Aborting!",
                                           width = 100))
     assertthat::assert_that(
-      tbl_format %in% c("kable", "DT", "rhandsontable", "None"),
-      msg = strwrap("`tbl_format` must be equal to `kable`, `DT` or `rhandsontable`.
+      tbl_format %in% c("kableExtra", "DT", "rhandsontable", "None"),
+      msg = strwrap("`tbl_format` must be equal to `kableExtra`, `DT` or `rhandsontable`.
                     Please correct. Aborting!", width = 100))
 
     if (!is.null(colnames)) {

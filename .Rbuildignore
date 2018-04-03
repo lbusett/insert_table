@@ -6,3 +6,5 @@
 ^_pkgdown\.yml$
 ^docs$
 ^R\WIP$
+Index.Rmd
+.Rproj$

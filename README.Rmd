@@ -28,41 +28,43 @@ devtools::install_github("lbusett/insert_table")
 
 ## Usage
 
-Upon installing, `inserttable` will register a new RStudio Addin that can be
-used to easily insert a table in a `Rmd` document. To use it, open a R markdown
-document and, with the cursor in a `r` chunk, select "Addins --> INSERTTABBLE --> 
-Insert Table". There are two use cases: 
+Upon installing, `inserttable` registers a new RStudio Addin (__Insert Table__)
+that can be used to easily insert a table in a `Rmd` document. To use it, open a 
+`Rmd` document and, with the cursor within a `r` chunk and select  "Addins --> Insert Table". 
+
+These are the two main __use modes__:
+
 
 ### Launch the addin with the cursor on a empty line
 
 In this case, a GUI will open allowing you to __select the desired output format__ (
-`kable`, `DT` and `rhandsontable` are currently implemented), and to __edit the content
-of the table__. After clicking __Done__ the Addin will add the code needed
-to generate the table (in `tribble` format to allow easier editing, thanks to 
-[`datapasta`](https://github.com/milesmcbain/datapasta!) and to render it with the 
-selected output format in the `Rmd` document using some default options: 
+`kableExtra`, `DT` and `rhandsontable` are currently implemented), and to __edit the 
+content of the table__. After clicking __Done__ the Addin will add in the `Rmd`
+document the code needed to generate the table in a nice `tribble` format (thanks 
+to Miles McBain's [`datapasta`](https://github.com/milesmcbain/datapasta) package!) 
+to allow easier editing, and also the code needed to render it with the selected 
+output format using some default options, as can be seen below: 
+ 
 
 
 ![](man/Figures/animation_1.gif)
 
 
-
-For larger tables, you can also __cut and paste content from a spreadsheet__ : 
+A useful feature is that, for larger tables, you can also __cut and paste content from a spreadsheet__ : 
 
 ![](man/Figures/animation_2.gif)
 
 
-Rendering of the table can successively be tweaked further by changing the arguments
-of the rendering functions.
+Obviously, rendering of the table can be tweaked further by changing/adding arguments of the rendering functions in the automatically generated code.
+
 
 
 ### Launch the addin while selecting the name of a variable
 
 In this case, the GUI allows you to select __only the desired output format__ (
-`kable`, `DT` and `rhandsontable` are currently implemented). After clicking __Done__
-the Addin will add in the `Rmd` document the code needed to render the selected variable
-as a table with the selected output format. The code will be added at the first 
-empty line below that containing the name of the selected variable.
+it is assumed that the variable you select corresponds to a `data frame` or similar
+object containing the data you wish to show as table). After clicking __Done__
+the Addin will add in the `Rmd` document the code needed to render the selected variable as a table with the selected output format. The code will be added at the first empty line below that containing the name of the selected variable.
 
 
 ![](man/Figures/animation_3.gif)
@@ -71,6 +73,7 @@ empty line below that containing the name of the selected variable.
 __IMPORTANT NOTE__: `inserttable` will make no effort to guarantee that the 
 variable you select is a `data.frame`. It is up to you to select a meaningful
 variable!
+
 
 ## Usage from the console
 

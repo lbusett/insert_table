@@ -1,3 +1,20 @@
+#' @title get_table_code
+#' @description Accessory function used to generate the code needed to generate
+#'  the table in the selcted otuput format
+#' @param out_tbl `data.frame` or `string`
+#' @param tbl_name `character` named to be used for the table
+#' @param is_console `logical` if TRUE, the insert_table function was called
+#'  from the console, otherwise from an Rmd file using the addin
+#' @param context context of the call (tells if from console or file, and if
+#'  from file allows to retrieve  the lines, etcetera)
+#' @return returns the code needed to generate the table, either by creating
+#'  new lines in the Rmd, or by printing it to the console (if is.console = TRUE)
+#' @rdname get_table_code
+#' @author Lorenzo Busetto, phD (2017) <lbusett@gmail.com>
+#' @importFrom anytime anydate
+#' @importFrom datapasta tribble_construct
+#' @importFrom rstudioapi insertText
+#'
 get_table_code <- function(out_tbl,
                            tbl_name,
                            is_console,
@@ -38,8 +55,8 @@ get_table_code <- function(out_tbl,
         # convert columns to "standard" date representation if possible
         # (i.e., YYYY-mm-dd)
         if (!any(is.na(anytime::anydate(out_tbl_data[, col])))) {
-          out_tbl_data[, col] <- anytime::anydate(out_tbl_data[, col]) %>%
-            as.character()
+          out_tbl_data[, col] <- anytime::anydate(out_tbl_data[, col])
+          out_tbl_data  <- as.character(out_tbl_data)
         }
       }
 
@@ -58,11 +75,15 @@ get_table_code <- function(out_tbl,
   #   __________________________________________________________________________
   #   Create code to generate table in specified format                     ####
 
-  if (out_tbl[[2]] == "kable") {
+  if (out_tbl[[2]] == "kableExtra") {
 
     output_table_str <-
       paste0("require(knitr)\n",
-             "kable(", tbl_name, ", digits = 3, row.names = FALSE, caption = NULL)")
+             "require(kableExxtra)\n",
+             "kable(", tbl_name, ", digits = 3, row.names = FALSE, align = \"c\",
+             caption = NULL, format = \"html\") %>% \n",
+             "kable_styling(bootstrap_options = c(\"striped\", \"hover\", \"condensed\"),
+             position = \"center\", full_width = FALSE) ")
   } else {
     if (out_tbl[[2]] == "DT") {
       output_table_str <-

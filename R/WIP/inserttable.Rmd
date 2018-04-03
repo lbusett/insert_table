@@ -22,9 +22,11 @@ iris_filtered <- iris %>%
   dplyr::select(1:5) %>% 
   dplyr::filter(Petal.Width == 0.2)
 
-require(DT)
-datatable(iris_filtered, rownames = FALSE, caption = NULL,
-               filter = "top", escape = FALSE, style = "bootstrap")
-
+require(knitr)
+require(kableExtra)
+kable(iris_filtered, digits = 3, row.names = FALSE, align = "c",
+             caption = NULL, format = "html") %>% 
+kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+             position = "center", full_width = FALSE) 
 
 ```
