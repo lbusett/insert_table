@@ -8,7 +8,7 @@ inserttable
 Installation
 ------------
 
-You can install `inserttable` from [GitHub](https://github.com/) with:
+You can install `inserttable` from [GitHub](https://github.com/lbusett/insert_table) with:
 
 ``` r
 # install.packages("devtools")
@@ -48,7 +48,6 @@ Usage from the console
 You can also use (part of) `inserttable` functionality from the console by calling function `insert_table()`.
 
 ``` r
-
 > insert_table(tbl_name = "table_1", nrows = 4, ncols = 4, tbl_format = "DT")
 ```
 

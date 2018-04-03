@@ -79,11 +79,12 @@ get_table_code <- function(out_tbl,
 
     output_table_str <-
       paste0("require(knitr)\n",
-             "require(kableExxtra)\n",
-             "kable(", tbl_name, ", digits = 3, row.names = FALSE, align = \"c\",
-             caption = NULL, format = \"html\") %>% \n",
-             "kable_styling(bootstrap_options = c(\"striped\", \"hover\", \"condensed\"),
-             position = \"center\", full_width = FALSE) ")
+             "require(kableExtra)\n",
+             "kable_styling(
+              kable(", tbl_name, ", digits = 3, row.names = FALSE, align = \"c\",
+              caption = NULL, format = \"html\"),
+        bootstrap_options = c(\"striped\", \"hover\", \"condensed\"),
+        position = \"center\", full_width = FALSE) ")
   } else {
     if (out_tbl[[2]] == "DT") {
       output_table_str <-
