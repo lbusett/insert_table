@@ -1,8 +1,9 @@
 #' @title get_table_code
 #' @description Accessory function used to generate the code needed to generate
 #'  the table in the selcted otuput format
-#' @param out_tbl `data.frame` or `string`
-#' @param tbl_name `character` named to be used for the table
+#' @param out_tbl `list` passed from `insert_table` and containing 4 elements:
+#'  1: data.frame to be used to generate the table, 2: context of the call,
+#'  3: column names (optional) and 4: table name
 #' @param is_console `logical` if TRUE, the insert_table function was called
 #'  from the console, otherwise from an Rmd file using the addin
 #' @param context context of the call (tells if from console or file, and if
@@ -16,13 +17,15 @@
 #' @importFrom rstudioapi insertText
 #'
 get_table_code <- function(out_tbl,
-                           tbl_name,
                            is_console,
                            context) {
 
+
+
   #   ____________________________________________________________________________
   #   Create code to generate tribble                                         ####
-  header <- out_tbl[[3]]
+  header   <- out_tbl[[3]]
+  tbl_name <- out_tbl[[4]]
 
   if (is.data.frame(out_tbl[[1]])) {
 
@@ -113,7 +116,7 @@ get_table_code <- function(out_tbl,
 
     insert_line <- NULL
     curr_line <- context[["selection"]][[1]][["range"]][["end"]][[1]]
-    for (line in (curr_line + 1):length(context$contents)) {
+    for (line in (curr_line):length(context$contents)) {
       if (context["contents"][[1]][line] == "") {
         insert_line <- line
         break()

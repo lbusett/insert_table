@@ -4,12 +4,12 @@
 \alias{get_table_code}
 \title{get_table_code}
 \usage{
-get_table_code(out_tbl, tbl_name, is_console, context)
+get_table_code(out_tbl, is_console, context)
 }
 \arguments{
-\item{out_tbl}{`data.frame` or `string`}
-
-\item{tbl_name}{`character` named to be used for the table}
+\item{out_tbl}{`list` passed from `insert_table` and containing 4 elements:
+1: data.frame to be used to generate the table, 2: context of the call,
+3: column names (optional) and 4: table name}
 
 \item{is_console}{`logical` if TRUE, the insert_table function was called
 from the console, otherwise from an Rmd file using the addin}

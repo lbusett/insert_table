@@ -3,7 +3,7 @@
 inserttable
 ===========
 
-`inserttable` is an RStudio add-in facilitating insertion of nicely formatted tables in R markdown documents.
+`inserttable` is an RStudio add-in facilitating insertion of nicely formatted tables in R markdown documents or plain R scripts.
 
 Installation
 ------------
@@ -18,13 +18,13 @@ devtools::install_github("lbusett/insert_table")
 Usage
 -----
 
-Upon installing, `inserttable` registers a new RStudio Addin (**Insert Table**) that can be used to easily insert a table in a `Rmd` document. To use it, open a `Rmd` document and, with the cursor within a `r` chunk and select "Addins --&gt; Insert Table".
+Upon installing, `inserttable` registers a new RStudio Addin (**Insert Table**) that can be used to easily insert a table in a `Rmd` document. To use it, open a `Rmd` or `R` document and select "Addins --&gt; Insert Table".
 
-These are the two main **use modes**:
+There are two main **use modes**:
 
 ### Launch the addin with the cursor on a empty line
 
-In this case, a GUI will open allowing you to **select the desired output format** ( `kableExtra`, `DT` and `rhandsontable` are currently implemented), and to **edit the content of the table**. After clicking **Done** the Addin will add in the `Rmd` document the code needed to generate the table in a nice `tribble` format (thanks to Miles McBain's [`datapasta`](https://github.com/milesmcbain/datapasta) package!) to allow easier editing, and also the code needed to render it with the selected output format using some default options, as can be seen below:
+In this case, a GUI will open allowing you to **select the desired output format** ( `kableExtra`, `DT` and `rhandsontable` are currently implemented), and to **edit the content of the table**. After clicking **Done** the Addin will add in the file the code needed to generate the table in a nice `tribble` format (thanks to Miles McBain's [`datapasta`](https://github.com/milesmcbain/datapasta) package!) to allow easier additional editing, and also the code needed to render it with the selected output format using some default options, as can be seen below:
 
 ![](man/Figures/animation_1.gif)
 
@@ -51,6 +51,6 @@ You can also use (part of) `inserttable` functionality from the console by calli
 > insert_table(tbl_name = "table_1", nrows = 4, ncols = 4, tbl_format = "DT")
 ```
 
-The function will return **to the console** the code needed to create a empty table of the specified dimensions and render it with the selected format:
+The function will return **to the console** the code needed tos create a empty table of the specified dimensions and render it with the selected format:
 
 ![](man/Figures/animation_4.gif)

@@ -5,7 +5,7 @@
 \title{insert_table}
 \usage{
 insert_table(nrows = 3, ncols = 3, tbl_format = "kableExtra",
-  colnames = NULL, tbl_name = NULL)
+  tbl_name = "my_tbl", colnames = NULL)
 }
 \arguments{
 \item{nrows}{`numeric` number of rows of the generated empty table, Default: 1
@@ -17,10 +17,10 @@ insert_table(nrows = 3, ncols = 3, tbl_format = "kableExtra",
 \item{tbl_format}{`character` [`kableExtra` | `DT` | `rhandsontable` | `None`] format
 required for the table to be created (ignored if calling as an addin)}
 
-\item{colnames}{`character` of lenght ncols containing the desired column names
+\item{tbl_name}{`character` name required for the table to be created
 (ignored if calling as an addin)}
 
-\item{tbl_name}{`character` name required for the table to be created
+\item{colnames}{`character` of lenght ncols containing the desired column names
 (ignored if calling as an addin)}
 }
 \value{

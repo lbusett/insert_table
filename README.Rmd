@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 # inserttable
 
 `inserttable` is an RStudio add-in facilitating insertion of nicely formatted
-tables in R markdown documents.
+tables in R markdown documents or plain R scripts.
 
 ## Installation
 
@@ -31,19 +31,19 @@ devtools::install_github("lbusett/insert_table")
 
 Upon installing, `inserttable` registers a new RStudio Addin (__Insert Table__)
 that can be used to easily insert a table in a `Rmd` document. To use it, open a 
-`Rmd` document and, with the cursor within a `r` chunk and select  "Addins --> Insert Table". 
+`Rmd` or `R` document and select  "Addins --> Insert Table". 
 
-These are the two main __use modes__:
+There are two main __use modes__:
 
 
 ### Launch the addin with the cursor on a empty line
 
 In this case, a GUI will open allowing you to __select the desired output format__ (
 `kableExtra`, `DT` and `rhandsontable` are currently implemented), and to __edit the 
-content of the table__. After clicking __Done__ the Addin will add in the `Rmd`
-document the code needed to generate the table in a nice `tribble` format (thanks 
+content of the table__. After clicking __Done__ the Addin will add in the file 
+the code needed to generate the table in a nice `tribble` format (thanks 
 to Miles McBain's [`datapasta`](https://github.com/milesmcbain/datapasta) package!) 
-to allow easier editing, and also the code needed to render it with the selected 
+to allow easier additional editing, and also the code needed to render it with the selected 
 output format using some default options, as can be seen below: 
  
 
@@ -57,7 +57,6 @@ A useful feature is that, for larger tables, you can also __cut and paste conten
 
 
 Obviously, rendering of the table can be tweaked further by changing/adding arguments of the rendering functions in the automatically generated code.
-
 
 
 ### Launch the addin while selecting the name of a variable
@@ -86,7 +85,7 @@ function `insert_table()`.
 
 ```
 
-The function will return __to the console__ the code needed to create a empty 
+The function will return __to the console__ the code needed tos create a empty 
 table of the specified dimensions and render it with the selected format:
 
 ![](man/Figures/animation_4.gif)

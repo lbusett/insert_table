@@ -51,9 +51,8 @@
 insert_table = function(nrows      = 3,
                         ncols      = 3,
                         tbl_format = "kableExtra",
-                        colnames   = NULL,
-                        tbl_name   = NULL
-){
+                        tbl_name   = "my_tbl",
+                        colnames   = NULL){
 
   # Get the text selected when the addin was called
   context    <- rstudioapi::getActiveDocumentContext()
@@ -61,16 +60,13 @@ insert_table = function(nrows      = 3,
 
   text       <- context$selection[[1]]$text
   is_console <- context[["id"]] == "#console"
-  if (is.null(tbl_name)) {
-    tbl_name <- "mytbl"
-  }
 
   if (!is_console) {
     if (text == "") {
 
       # check that the addin was called from an Rmd document. Otherwise using it
       # does not make sense!
-      if (!tools::file_ext(context$path) %in% c("Rmd")) {
+      if (!tools::file_ext(context$path) %in% c("Rmd", "R")) {
         stop(strwrap("The Insert Table addin/function should be called from an
                       `Rmd` document or from the console. Aborting!"))
       }
@@ -88,6 +84,7 @@ insert_table = function(nrows      = 3,
           miniUI::gadgetTitleBar("Select output format and edit the Table if
                                  you wish so"),
           shiny::fillRow(
+            shiny::textInput('tbl_name', 'Select Table Name', value = "my_tbl"),
             shiny::selectInput('format', 'Select Output Format',
                                c('kableExtra', 'DT', 'rhandsontable')),
             height = '70px'
@@ -128,7 +125,7 @@ insert_table = function(nrows      = 3,
             DT <- data.frame(matrix(data_tbl,
                                     nrow = nrows, byrow = TRUE),
                              stringsAsFactors = FALSE)
-            out_tbl <- list(DT, input$format, input$headers)
+            out_tbl <- list(DT, input$format, input$headers, input$tbl_name)
             shiny::stopApp(returnValue = out_tbl)
           })
 
@@ -148,6 +145,7 @@ insert_table = function(nrows      = 3,
         ui <- miniUI::miniPage(miniUI::miniContentPanel(
           miniUI::gadgetTitleBar("Select output format"),
           shiny::fillRow(
+            shiny::textInput('tbl_name', 'Select Table Name', value = tbl_name),
             shiny::selectInput('format', 'Format',
                                c('kableExtra', 'DT', 'rhandsontable', 'None')),
             height = '70px'
@@ -156,7 +154,8 @@ insert_table = function(nrows      = 3,
 
         server = function(input, output, session) {
           shiny::observeEvent(input$done, {
-            shiny::stopApp(returnValue = list("", input$format, FALSE))
+            shiny::stopApp(returnValue = list("", input$format, FALSE,
+                                              input$tbl_name))
           })
           shiny::observeEvent(input$cancel, {
             shiny::stopApp()
@@ -196,12 +195,12 @@ insert_table = function(nrows      = 3,
       names(out_tbl) <- colnames
     }
 
-    out_tbl  <- list(out_tbl, tbl_format, FALSE)
+    out_tbl  <- list(out_tbl, tbl_format, FALSE, tbl_name)
 
   }
 
   get_table_code(out_tbl,
-                 tbl_name,
                  is_console,
                  context)
+
 }
