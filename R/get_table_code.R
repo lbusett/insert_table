@@ -78,7 +78,17 @@ get_table_code <- function(out_tbl,
   #   __________________________________________________________________________
   #   Create code to generate table in specified format                     ####
 
-  if (out_tbl[[2]] == "kableExtra") {
+  out_format <- out_tbl[[2]]
+
+  if (out_format == "kable") {
+
+    output_table_str <-
+      paste0("require(knitr)\n",
+             "kable(", tbl_name, ", digits = 3, row.names = FALSE, align = \"c\",
+              caption = NULL)")
+  }
+
+  if (out_format == "kableExtra - html") {
 
     output_table_str <-
       paste0("require(knitr)\n",
@@ -88,23 +98,37 @@ get_table_code <- function(out_tbl,
               caption = NULL, format = \"html\"),
         bootstrap_options = c(\"striped\", \"hover\", \"condensed\"),
         position = \"center\", full_width = FALSE) ")
-  } else {
-    if (out_tbl[[2]] == "DT") {
-      output_table_str <-
-        paste0("require(DT)\n",
-               "datatable(", tbl_name, ", rownames = FALSE, caption = NULL,
-               filter = \"top\", escape = FALSE, style = \"default\")")
-    } else {
-      if (out_tbl[[2]] == "rhandsontable") {
-        output_table_str <-
-          paste0("require(rhandsontable)\n",
-                 "rhandsontable(", tbl_name, ", rowHeaders = NULL,
-               digits = 3, useTypes = FALSE, search = FALSE)")
-      } else {
-        output_table_str <- ""
-      }
-    }
   }
+
+  if (out_format == "kableExtra - pdf") {
+
+    output_table_str <-
+      paste0("require(knitr)\n",
+             "require(kableExtra)\n",
+             "kable_styling(
+              kable(", tbl_name, ", digits = 3, row.names = FALSE, align = \"c\",
+              caption = NULL, format = \"latex\"),
+        latex_options = c(\"striped\", \"basic\"),
+        position = \"center\", full_width = FALSE) ")
+  }
+
+  if (out_format == "DT") {
+    output_table_str <-
+      paste0("require(DT)\n",
+             "datatable(", tbl_name, ", rownames = FALSE, caption = NULL,
+               filter = \"top\", escape = FALSE, style = \"default\",
+               width = NULL, height = NULL)")
+  }
+
+  if (out_format == "rhandsontable") {
+    output_table_str <-
+      paste0("require(rhandsontable)\n",
+             "rhandsontable(", tbl_name, ", rowHeaders = NULL,
+               digits = 3, useTypes = FALSE, search = FALSE,
+               width = NULL, height = NULL)")
+  }
+
+  if (out_format == "None") output_table_str <- ""
 
   # create the final text string to be added to the Rmd or pasted to console
   output_str <- paste0(output_tibble_str, "\n", output_table_str, "\n")

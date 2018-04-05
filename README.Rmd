@@ -39,14 +39,18 @@ There are two main __use modes__:
 ### Launch the addin with the cursor on a empty line
 
 In this case, a GUI will open allowing you to __select the desired output format__ (
-`kableExtra`, `DT` and `rhandsontable` are currently implemented), and to __edit the 
+`kable`, `kableExtra`, `DT` and `rhandsontable` are currently implemented), and to __edit the 
 content of the table__. After clicking __Done__ the Addin will add in the file 
 the code needed to generate the table in a nice `tribble` format (thanks 
 to Miles McBain's [`datapasta`](https://github.com/milesmcbain/datapasta) package!) 
 to allow easier additional editing, and also the code needed to render it with the selected 
 output format using some default options, as can be seen below: 
  
-
+__IMPORTANT NOTE:__ Not all output formats play well with knitting to PDF or Word!. 
+`kable` works everywhere, while `DT` and `rhandsontable` work out of the box only
+if knitting to html. You can make them work on PDF and Word by adding
+`always_allow_html: yes` in the yaml header of the Rmd, and installing __phantomjs__ using:
+`webshot::install_phantomjs()` (results are not that good, though). 
 
 ![](man/Figures/animation_1.gif)
 

@@ -46,6 +46,11 @@ to Miles McBain's [`datapasta`](https://github.com/milesmcbain/datapasta) packag
 to allow easier additional editing, and also the code needed to render it with the selected 
 output format using some default options, as can be seen below: 
  
+__IMPORTANT NOTE:__ Not all output formats play well with knitting to PDF or Word!. 
+`kable` works everywhere, while `DT` and `rhandsontable` work out of the box only
+if knitting to html. You can make them work on PDF and Word by adding
+`always_allow_html: yes` in the yaml header of the Rmd, and installing __phantomjs__ using:
+`webshot::install_phantomjs()` (results are not that good, though). 
 
 
 ![](man/Figures/animation_1.gif)
