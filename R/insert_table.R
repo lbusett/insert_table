@@ -69,7 +69,7 @@ insert_table = function(nrows      = 3,
       # does not make sense!
       if (!tools::file_ext(context$path) %in% c("Rmd", "R")) {
         stop(strwrap("The Insert Table addin/function should be called from an
-                      `Rmd` document or from the console. Aborting!"))
+                      `.Rmd` or `.R` file  or from the console. Aborting!"))
       }
 
       # create an empty table to initialize the GUI
