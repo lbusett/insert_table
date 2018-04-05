@@ -26,3 +26,5 @@ vignettes/*.pdf
 .Rproj.user
 inst/doc
 R/WIP
+
+insert_table\.Rproj

@@ -1,14 +1,15 @@
 #' @title insert_table
 #' @description Function and RStudio add-in allowing to quickly and automatically
 #'  generate the code needed to render a table in a RMarkdown document using different
-#'  formats (kableExtra, DT and rhandsontable are currently implemented - if "None"
+#'  formats (kable, kableExtra, DT and rhandsontable are currently implemented - if "None"
 #'  is selected only the code to generate a new tibble with the provided content
 #'  is provided).
 #' @param nrows `numeric` number of rows of the generated empty table, Default: 1
 #'  (ignored if calling the addin from an empty Rmd line)
 #' @param ncols `numeric` number of columns of the generated empty table, Default: 1
 #'  (ignored if calling the addin from an empty Rmd line)
-#' @param tbl_format `character` [`kableExtra` | `DT` | `rhandsontable` | `None`] format
+#' @param tbl_format `character` [`kable` | `kableExtra - html` | `kableExtra - pdf` |
+#'  `DT` | `rhandsontable` | `None`] format
 #'  required for the table to be created (ignored if calling as an addin)
 #' @param colnames `character` of lenght ncols containing the desired column names
 #'  (ignored if calling as an addin)
@@ -50,7 +51,7 @@
 #'
 insert_table = function(nrows      = 3,
                         ncols      = 3,
-                        tbl_format = "kableExtra",
+                        tbl_format = "kable",
                         tbl_name   = "my_tbl",
                         colnames   = NULL){
 
@@ -68,7 +69,7 @@ insert_table = function(nrows      = 3,
       # does not make sense!
       if (!tools::file_ext(context$path) %in% c("Rmd", "R")) {
         stop(strwrap("The Insert Table addin/function should be called from an
-                      `Rmd` document or from the console. Aborting!"))
+                      `.Rmd` or `.R` file  or from the console. Aborting!"))
       }
 
       # create an empty table to initialize the GUI
@@ -86,7 +87,7 @@ insert_table = function(nrows      = 3,
           shiny::fillRow(
             shiny::textInput('tbl_name', 'Select Table Name', value = "my_tbl"),
             shiny::selectInput('format', 'Select Output Format',
-                               c('kableExtra', 'DT', 'rhandsontable')),
+                               c('kable', 'kableExtra - html', 'kableExtra - pdf', 'DT', 'rhandsontable', 'None')),
             height = '70px'
           ),
           shiny::h4("Edit Table or cut and paste from spreadsheet",
@@ -147,7 +148,7 @@ insert_table = function(nrows      = 3,
           shiny::fillRow(
             shiny::textInput('tbl_name', 'Select Table Name', value = tbl_name),
             shiny::selectInput('format', 'Format',
-                               c('kableExtra', 'DT', 'rhandsontable', 'None')),
+                               c('kable', 'kableExtra - html', 'kableExtra - pdf', 'DT', 'rhandsontable', 'None')),
             height = '70px'
           )
         ))
