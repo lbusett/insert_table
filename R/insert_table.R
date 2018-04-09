@@ -200,8 +200,9 @@ insert_table = function(nrows      = 3,
 
   }
 
-  get_table_code(out_tbl,
-                 is_console,
-                 context)
-
+  if (!is.null(out_tbl)) {
+    get_table_code(out_tbl,
+                   is_console,
+                   context)
+  }
 }

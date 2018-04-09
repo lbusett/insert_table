@@ -14,7 +14,8 @@ insert_table(nrows = 3, ncols = 3, tbl_format = "kable",
 \item{ncols}{`numeric` number of columns of the generated empty table, Default: 1
 (ignored if calling the addin from an empty Rmd line)}
 
-\item{tbl_format}{`character` [`kableExtra` | `DT` | `rhandsontable` | `None`] format
+\item{tbl_format}{`character` [`kable` | `kableExtra - html` | `kableExtra - pdf` |
+`DT` | `rhandsontable` | `None`] format
 required for the table to be created (ignored if calling as an addin)}
 
 \item{tbl_name}{`character` name required for the table to be created
@@ -43,7 +44,7 @@ returns the code required to create a table in a Rmd file with the
 \description{
 Function and RStudio add-in allowing to quickly and automatically
  generate the code needed to render a table in a RMarkdown document using different
- formats (kableExtra, DT and rhandsontable are currently implemented - if "None"
+ formats (kable, kableExtra, DT and rhandsontable are currently implemented - if "None"
  is selected only the code to generate a new tibble with the provided content
  is provided).
 }
