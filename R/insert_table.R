@@ -65,20 +65,10 @@ insert_table = function(nrows      = 3,
   if (!is_console) {
     if (text == "") {
 
-      # check that the addin was called from an Rmd document. Otherwise using it
-      # does not make sense!
-      if (!tools::file_ext(context$path) %in% c("Rmd", "R")) {
-        stop(strwrap("The Insert Table addin/function should be called from an
-                      `.Rmd` or `.R` file  or from the console. Aborting!"))
-      }
-
-      # create an empty table to initialize the GUI
+      # If function called as addin from an empty line create an empty table to
+      # initialize the GUI
       DT <- data.frame(matrix(data = "", ncol = 3, nrow = 4),
                        stringsAsFactors = FALSE)
-
-      # If function called as addin from an empty line, ask user to define number
-      # of rows and columns and format of table he wishes to create and create a empty data
-      # frame
 
       out_tbl = local({
         ui <- miniUI::miniPage(miniUI::miniContentPanel(
@@ -131,7 +121,7 @@ insert_table = function(nrows      = 3,
           })
 
           shiny::observeEvent(input$cancel, {
-            shiny::stopApp()
+            shiny::stopApp(returnValue = "Quit")
           })
         }
         shiny::runGadget(ui, server,
@@ -159,7 +149,7 @@ insert_table = function(nrows      = 3,
                                               input$tbl_name))
           })
           shiny::observeEvent(input$cancel, {
-            shiny::stopApp()
+            shiny::stopApp(returnValue = "Quit")
           })
         }
 
@@ -177,7 +167,8 @@ insert_table = function(nrows      = 3,
                                           the output format. Aborting!",
                                           width = 100))
     assertthat::assert_that(
-      tbl_format %in% c("kableExtra", "DT", "rhandsontable", "None"),
+      tbl_format %in% c("kable", "kableExtra - html", "kableExtra - pdf", "DT",
+                        "rhandsontable", "None"),
       msg = strwrap("`tbl_format` must be equal to `kableExtra`, `DT` or `rhandsontable`.
                     Please correct. Aborting!", width = 100))
 
@@ -200,8 +191,9 @@ insert_table = function(nrows      = 3,
 
   }
 
-  get_table_code(out_tbl,
-                 is_console,
-                 context)
-
+  if (!is.character(out_tbl)) {
+    get_table_code(out_tbl,
+                   is_console,
+                   context)
+  }
 }
