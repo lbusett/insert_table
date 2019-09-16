@@ -79,7 +79,7 @@ get_table_code <- function(out_tbl,
   #   Create code to generate table in specified format                     ####
 
   out_format <- out_tbl[[2]]
-
+# browser()
   if (out_format == "kable") {
 
     output_table_str <-
@@ -151,8 +151,8 @@ get_table_code <- function(out_tbl,
       }
     }
     if (is.null(insert_line)) insert_line <- length(context$contents) - 1
-    rstudioapi = rstudioapi::insertText(c(insert_line, 1, insert_line, 1),
-                                        output_str)
+    position <- rstudioapi::document_position(insert_line, 1)
+    rstudioapi = rstudioapi::insertText(position,output_str)
   } else {
     rstudioapi = rstudioapi::insertText(output_str)
   }
