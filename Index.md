@@ -1,17 +1,4 @@
 
-inserttable
-<a href='https:/lbusett.github.io/insert_table'><img src='man/figures/logo.png' align="right" height="139" /></a>
-
-<!-- badges: start -->
-
-[![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Travis-CI Build
-Status](https://travis-ci.org/lbusett/insert_table.svg?branch=master)](https://travis-ci.org/ropensci/insert_table)
-<!-- badges: end -->
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # inserttable
 
 `inserttable` is an RStudio add-in facilitating insertion of nicely
@@ -31,18 +18,18 @@ devtools::install_github("lbusett/insert_table")
 
 Upon installing, `inserttable` registers a new RStudio Addin (**Insert
 Table**) that can be used to easily insert a table in a `Rmd` document.
-To use it, open a `Rmd` or `R` document and select “Addins –\> Insert
-Table”.
+To use it, open a `Rmd` document and, with the cursor within a `r` chunk
+and select “Addins –\> Insert Table”.
 
-There are two main **use modes**:
+These are the two main **use modes**:
 
 ### Launch the addin with the cursor on a empty line
 
 In this case, a GUI will open allowing you to **select the desired
-output format** ( `kable`, `kableExtra`, `DT` and `rhandsontable` are
-currently implemented), and to **edit the content of the table**. After
-clicking **Done** the Addin will add in the file the code needed to
-generate the table in a nice `tribble` format (thanks to Miles McBain’s
+output format** ( `kableExtra`, `DT` and `rhandsontable` are currently
+implemented), and to **edit the content of the table**. After clicking
+**Done** the Addin will add in the file the code needed to generate the
+table in a nice `tribble` format (thanks to Miles McBain’s
 [`datapasta`](https://github.com/milesmcbain/datapasta) package\!) to
 allow easier additional editing, and also the code needed to render it
 with the selected output format using some default options, as can be
@@ -85,10 +72,10 @@ meaningful variable\!
 ## Usage from the console
 
 You can also use (part of) `inserttable` functionality from the console
-by calling function
-`insert_table()`.
+by calling function `insert_table()`.
 
 ``` r
+
 > insert_table(tbl_name = "table_1", nrows = 4, ncols = 4, tbl_format = "DT")
 ```
 

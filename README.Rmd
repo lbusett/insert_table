@@ -3,6 +3,11 @@ output: github_document
 ---
 inserttable <a href='https:/lbusett.github.io/insert_table'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
+<!-- badges: start -->
+  [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Travis-CI Build Status](https://travis-ci.org/lbusett/insert_table.svg?branch=master)](https://travis-ci.org/ropensci/insert_table)
+  <!-- badges: end -->
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r setup, include = FALSE}
@@ -53,12 +58,12 @@ if knitting to html. You can make them work on PDF and Word by adding
 `always_allow_html: yes` in the yaml header of the Rmd, and installing __phantomjs__ using:
 `webshot::install_phantomjs()` (results are not that good, though). 
 
-![](man/Figures/animation_1.gif)
+![](man/figures/animation_1.gif)
 
 
 A useful feature is that, for larger tables, you can also __cut and paste content from a spreadsheet__ : 
 
-![](man/Figures/animation_2.gif)
+![](man/figures/animation_2.gif)
 
 
 Obviously, rendering of the table can be tweaked further by changing/adding arguments of the rendering functions in the automatically generated code.
@@ -72,7 +77,7 @@ object containing the data you wish to show as table). After clicking __Done__
 the Addin will add in the `Rmd` document the code needed to render the selected variable as a table with the selected output format. The code will be added at the first empty line below that containing the name of the selected variable.
 
 
-![](man/Figures/animation_3.gif)
+![](man/figures/animation_3.gif)
 
 
 __IMPORTANT NOTE__: `inserttable` will make no effort to guarantee that the 
@@ -93,7 +98,7 @@ function `insert_table()`.
 The function will return __to the console__ the code needed to create a empty 
 table of the specified dimensions and render it with the selected format:
 
-![](man/Figures/animation_4.gif)
+![](man/figures/animation_4.gif)
 
 
 

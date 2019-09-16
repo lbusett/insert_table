@@ -80,6 +80,8 @@
   <div class="contents col-md-9">
 
 <p>inserttable <a href="https:/lbusett.github.io/insert_table"><img src="reference/figures/logo.png" align="right" height="139"></a></p>
+<!-- badges: start -->
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="inserttable" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
@@ -102,16 +104,16 @@
 <a href="#launch-the-addin-with-the-cursor-on-a-empty-line" class="anchor"></a>Launch the addin with the cursor on a empty line</h3>
 <p>In this case, a GUI will open allowing you to <strong>select the desired output format</strong> ( <code>kable</code>, <code>kableExtra</code>, <code>DT</code> and <code>rhandsontable</code> are currently implemented), and to <strong>edit the content of the table</strong>. After clicking <strong>Done</strong> the Addin will add in the file the code needed to generate the table in a nice <code>tribble</code> format (thanks to Miles McBain’s <a href="https://github.com/milesmcbain/datapasta"><code>datapasta</code></a> package!) to allow easier additional editing, and also the code needed to render it with the selected output format using some default options, as can be seen below:</p>
 <p><strong>IMPORTANT NOTE:</strong> Not all output formats play well with knitting to PDF or Word!. <code>kable</code> works everywhere, while <code>DT</code> and <code>rhandsontable</code> work out of the box only if knitting to html. You can make them work on PDF and Word by adding <code>always_allow_html: yes</code> in the yaml header of the Rmd, and installing <strong>phantomjs</strong> using: <code><a href="https://rdrr.io/pkg/webshot/man/install_phantomjs.html">webshot::install_phantomjs()</a></code> (results are not that good, though).</p>
-<p><img src="man/Figures/animation_1.gif"></p>
+<p><img src="reference/figures/animation_1.gif"></p>
 <p>A useful feature is that, for larger tables, you can also <strong>cut and paste content from a spreadsheet</strong> :</p>
-<p><img src="man/Figures/animation_2.gif"></p>
+<p><img src="reference/figures/animation_2.gif"></p>
 <p>Obviously, rendering of the table can be tweaked further by changing/adding arguments of the rendering functions in the automatically generated code.</p>
 </div>
 <div id="launch-the-addin-while-selecting-the-name-of-a-variable" class="section level3">
 <h3 class="hasAnchor">
 <a href="#launch-the-addin-while-selecting-the-name-of-a-variable" class="anchor"></a>Launch the addin while selecting the name of a variable</h3>
 <p>In this case, the GUI allows you to select <strong>only the desired output format</strong> ( it is assumed that the variable you select corresponds to a <code>data frame</code> or similar object containing the data you wish to show as table). After clicking <strong>Done</strong> the Addin will add in the <code>Rmd</code> document the code needed to render the selected variable as a table with the selected output format. The code will be added at the first empty line below that containing the name of the selected variable.</p>
-<p><img src="man/Figures/animation_3.gif"></p>
+<p><img src="reference/figures/animation_3.gif"></p>
 <p><strong>IMPORTANT NOTE</strong>: <code>inserttable</code> will make no effort to guarantee that the variable you select is a <code>data.frame</code>. It is up to you to select a meaningful variable!</p>
 </div>
 </div>
@@ -121,7 +123,7 @@
 <p>You can also use (part of) <code>inserttable</code> functionality from the console by calling function <code><a href="reference/insert_table.html">insert_table()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="reference/insert_table.html">insert_table</a></span>(<span class="dt">tbl_name =</span> <span class="st">"table_1"</span>, <span class="dt">nrows =</span> <span class="dv">4</span>, <span class="dt">ncols =</span> <span class="dv">4</span>, <span class="dt">tbl_format =</span> <span class="st">"DT"</span>)</a></code></pre></div>
 <p>The function will return <strong>to the console</strong> the code needed to create a empty table of the specified dimensions and render it with the selected format:</p>
-<p><img src="man/Figures/animation_4.gif"></p>
+<p><img src="reference/figures/animation_4.gif"></p>
 </div>
 </div>
 
@@ -151,7 +153,14 @@
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a></li>
+<li><a href="https://travis-ci.org/ropensci/insert_table"><img src="https://travis-ci.org/lbusett/insert_table.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
