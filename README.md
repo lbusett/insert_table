@@ -1,4 +1,7 @@
 
+inserttable
+<a href='https:/lbusett.github.io/insert_table'><img src='man/figures/logo.png' align="right" height="139" /></a>
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # inserttable

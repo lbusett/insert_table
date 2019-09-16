@@ -2,4 +2,7 @@ pandoc: 2.3.1
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles: {}
+urls:
+  reference: https://lbusett.github.io/insert_table//reference
+  article: https://lbusett.github.io/insert_table//articles
 
