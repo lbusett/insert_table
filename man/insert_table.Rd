@@ -21,7 +21,7 @@ required for the table to be created (ignored if calling as an addin)}
 \item{tbl_name}{`character` name required for the table to be created
 (ignored if calling as an addin)}
 
-\item{colnames}{`character` of lenght ncols containing the desired column names
+\item{colnames}{`character` of length ncols containing the desired column names
 (ignored if calling as an addin)}
 }
 \value{

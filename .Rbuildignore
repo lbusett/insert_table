@@ -8,3 +8,4 @@
 ^R\WIP$
 Index.Rmd
 .Rproj$
+^pkgdown$

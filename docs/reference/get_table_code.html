@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • inserttable</title>
+<title>get_table_code — get_table_code • inserttable</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,10 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="get_table_code — get_table_code" />
+<meta property="og:description" content="Accessory function used to generate the code needed to generate
+ the table in the selected output format" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +57,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -106,50 +109,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/lbusett/insert_table/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>get_table_code</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lbusett/insert_table/blob/master/R/get_table_code.R'><code>R/get_table_code.R</code></a></small>
+    <div class="hidden name"><code>get_table_code.Rd</code></div>
     </div>
 
-    <div id="inserttable-0-1" class="section level1">
-<h1 class="page-header">
-<a href="#inserttable-0-1" class="anchor"></a>inserttable 0.1</h1>
-<p>Fix insertion of code in Rmd (Fixes <a href='https://github.com/lbusett/insert_table/issues/5'>#5</a>)</p>
-</div>
-    <div id="inserttable-0-0-2" class="section level1">
-<h1 class="page-header">
-<a href="#inserttable-0-0-2" class="anchor"></a>inserttable 0.0.2</h1>
-<ul>
-<li>Now also working in plain “.R” files to support use in <code><a href="https://rdrr.io/pkg/knitr/man/spin.html">knitr::spin</a></code>
-</li>
-<li>Added possibility to provide user defined table name in the GUI</li>
-</ul>
-</div>
-    <div id="inserttable-0-0-1" class="section level1">
-<h1 class="page-header">
-<a href="#inserttable-0-0-1" class="anchor"></a>inserttable 0.0.1</h1>
-<p>First stable version</p>
-</div>
-    <div id="inserttable-0-0-0-9000" class="section level1">
-<h1 class="page-header">
-<a href="#inserttable-0-0-0-9000" class="anchor"></a>inserttable 0.0.0.9000</h1>
-<ul>
-<li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Accessory function used to generate the code needed to generate
+ the table in the selected output format</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>get_table_code</span>(<span class='no'>out_tbl</span>, <span class='no'>is_console</span>, <span class='no'>context</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>out_tbl</th>
+      <td><p>`list` passed from `insert_table` and containing 4 elements:
+1: data.frame to be used to generate the table, 2: context of the call,
+3: column names (optional) and 4: table name</p></td>
+    </tr>
+    <tr>
+      <th>is_console</th>
+      <td><p>`logical` if TRUE, the insert_table function was called
+from the console, otherwise from an Rmd file using the addin</p></td>
+    </tr>
+    <tr>
+      <th>context</th>
+      <td><p>context of the call (tells if from console or file, and if
+from file allows to retrieve  the lines, etcetera)</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>returns the code needed to generate the table, either by creating
+ new lines in the Rmd, or by printing it to the console (if is.console = TRUE)</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#inserttable-0-1">0.1</a></li>
-        <li><a href="#inserttable-0-0-2">0.0.2</a></li>
-        <li><a href="#inserttable-0-0-1">0.0.1</a></li>
-        <li><a href="#inserttable-0-0-0-9000">0.0.0.9000</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+    </ul>
 
+    <h2>Author</h2>
+    <p>Lorenzo Busetto, phD (2017) &lt;lbusett@gmail.com&gt;</p>
+  </div>
 </div>
 
 

@@ -23,7 +23,7 @@ returns the code needed to generate the table, either by creating
 }
 \description{
 Accessory function used to generate the code needed to generate
- the table in the selcted otuput format
+ the table in the selected output format
 }
 \author{
 Lorenzo Busetto, phD (2017) <lbusett@gmail.com>

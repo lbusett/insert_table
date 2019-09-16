@@ -1,6 +1,6 @@
 #' @title get_table_code
 #' @description Accessory function used to generate the code needed to generate
-#'  the table in the selcted otuput format
+#'  the table in the selected output format
 #' @param out_tbl `list` passed from `insert_table` and containing 4 elements:
 #'  1: data.frame to be used to generate the table, 2: context of the call,
 #'  3: column names (optional) and 4: table name

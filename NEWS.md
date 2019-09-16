@@ -1,3 +1,7 @@
+# inserttable 0.1
+
+Fix insertion of code in Rmd (Fixes #5)
+
 # inserttable 0.0.2
 
 * Now also working in plain ".R" files to support use in `knitr::spin`

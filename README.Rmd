@@ -89,7 +89,7 @@ function `insert_table()`.
 
 ```
 
-The function will return __to the console__ the code needed tos create a empty 
+The function will return __to the console__ the code needed to create a empty 
 table of the specified dimensions and render it with the selected format:
 
 ![](man/Figures/animation_4.gif)

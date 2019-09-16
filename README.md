@@ -81,7 +81,7 @@ by calling function
 > insert_table(tbl_name = "table_1", nrows = 4, ncols = 4, tbl_format = "DT")
 ```
 
-The function will return **to the console** the code needed tos create a
+The function will return **to the console** the code needed to create a
 empty table of the specified dimensions and render it with the selected
 format:
 

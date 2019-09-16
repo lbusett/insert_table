@@ -12,11 +12,13 @@ Imports:
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    spelling
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 URL: https://github.com/lbusett/insert_table
 BugReports: https://github.com/lbusett/insert_table/issues
+Language: en-US
